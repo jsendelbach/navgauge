@@ -1,0 +1,70 @@
+.gauges {
+    display: flex;
+}
+
+.doughnut {
+    border: 50px solid #666666;
+    border-radius: 229px;
+    /*height: 204px;*/
+    /*width: 204px;*/
+    overflow: hidden;
+}
+
+.gauge-cirlce {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gauge{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 204px;
+    width: 204px;
+}
+
+
+
+
+.wind-direction {
+    transform: rotate(32deg);
+}
+
+.temperature{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    width: 100%;
+    background-color: #261a3b;
+    color: white;
+    font-size: 18px;
+}
+
+.temperature-value{
+}
+
+.speed{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 76px;
+    font-size: 18px;
+}
+.speed-value{
+    font-size: 42px;
+}
+.depth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    width:100%;
+    background-color: #261a3b;
+    color: white;
+    font-size: 18px;
+}

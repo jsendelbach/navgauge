@@ -48,6 +48,7 @@ var messages = {
   '127258': {name: "MAg", glyph:"cog"},
   '129539' : {name:"GNSS DOPs", glyph:"list"},
   '130310' : {name: "Environmental Parameters", glyph: "star"},
+  TEMPERATURE: 130312,
   '130312' : {name: 'Temperature', glyph: "star"},
 
   '2waypoint': {name: "Bearing and Distance to Waypoint", glyph: "pushpin"},

@@ -5,102 +5,161 @@
     <meta charset="utf-8">
     <title>Gauges</title>
 
-<script src="lib/tween-min.js"></script>
-<script src="lib/steelseries.js"></script>
+<!--<script src="lib/tween-min.js"></script>-->
+<!--<script src="lib/steelseries.js"></script>-->
 <script src="lib/Bacon.js"></script>
-<script src="primus/primus.js"></script>    
+<script src="lib/jquery-2.1.4.min.js"></script>
+<script src="primus/primus.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
-<body onload="init();" style="background-color:#000">
+<body onload="init();" style="">
 
-<canvas id="speedCanvas" width="25%" height="25%"></canvas>
-<canvas id="depthCanvas" width="25%" height="25%"></canvas>
-<canvas id="compassCanvas" width="25%" height="25%"></canvas>
+<div class="gauges">
+    <div class="doughnut gauge-cirlce">
+        <div id="left-gauge" class="gauge">
+            <div class="temperature">
+                <div class="temperature-value">65</div> &deg; TEMP
+            </div>
+
+            <div class="speed">
+                <div class="speed-value">5.2</div> KNOTS
+            </div>
+            <div class="depth">
+                <div class="depth-value">24.3</div> DEPTH
+            </div>
+        </div>
+    </div>
+
+    <div class="doughnut gauge-cirlce">
+        <div id="middle-gauge" class="gauge">
+            <img src="images/logo.png"/>
+        </div>
+    </div>
+
+    <div class="doughnut gauge-cirlce">
+        <div id="right-gauge" class="gauge">
+            <img class="wind-direction" src="images/wind-direction.png"/>
+
+            <img class="point-of-sale-image" src="images/point-of-sail-1.png"/>
+            <div class="point-of-sale-text">
+                Close Hauled
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-
+<br/>
 
 
 <script>
-var speed;
-var depth;
-var compass;
+
+var speedValue;
+var depthValue;
+var windDirection;
+var temperatureValue;
+var pointOfSailImage;
+var pointOfSailText;
 
     function init() {
-         speed = new steelseries.Radial('speedCanvas', {
-                            gaugeType: steelseries.GaugeType.TYPE4,
-                            frameDesign: steelseries.FrameDesign.TILTED_BLACK,
-                            size: 400,
-                            titleString: "SOG",
-                            unitString: "knots",
-                            lcdVisible: true,
-                            maxValue:10,
-                            maxMeasuredValue:0,
-                            maxMeasuredValueVisible:true,
-                            thresholdVisible:false,
-                            ledVisible:false,
-                            pointerType: steelseries.PointerType.TYPE4
-                        });
-
-       var depthSections = [steelseries.Section(0, 4, 'rgba(255, 0, 0, 0.3)'),
-                        steelseries.Section(4, 8, 'rgba(220, 220, 0, 0.3)') ];
-
-         depth = new steelseries.Radial('depthCanvas', {
-                            gaugeType: steelseries.GaugeType.TYPE4,
-                            frameDesign: steelseries.FrameDesign.TILTED_BLACK,
-                            size: 400,
-                            section: depthSections,
-                            titleString: "Depth",
-                            unitString: "m",
-                            lcdVisible: true,
-                            maxValue:20,
-                            maxMeasuredValue:0,
-                            maxMeasuredValueVisible:true,
-                            thresholdVisible:false,
-                            ledVisible:false,
-                            pointerType: steelseries.PointerType.TYPE2
-                        });  
-
-                 compass = new steelseries.Compass('compassCanvas', {
-                            frameDesign: steelseries.FrameDesign.TILTED_BLACK,
-                            size: 400,
-                            rotateFace: true,
-                            pointerType: steelseries.PointerType.TYPE5
-                            });
+        speedValue = $(".speed-value");
+        depthValue = $(".depth-value");
+        windDirection = $(".wind-direction");
+        temperatureValue = $(".temperature-value");
+        pointOfSailImage = $(".point-of-sale-image")
+        pointOfSailText = $(".point-of-sale-text")
     }
 
+    function changePointOfSail(theAngle){
+        console.log("angle="+theAngle);
+        var textOfPointOfSail;
+        var imageId;
+        if (theAngle >= 300 && theAngle < 315){
+//        11	Close Hauled	300
+            textOfPointOfSail = 'Close Hauled';
+            imageId=11;
+        } else if (theAngle >= 280 && theAngle < 300){
+//        10	Close Reach	280
+            textOfPointOfSail = 'Close Reach';
+            imageId=10;
+        } else if (theAngle >= 240 && theAngle < 280){
+//        9	Beam Reach	240
+            textOfPointOfSail = 'Bean Reach';
+            imageId=9;
+        } else if (theAngle >= 210 && theAngle < 240){
+//        8	Broad Reach	210
+            textOfPointOfSail = 'Broad Reach';
+            imageId=8;
+        } else if (theAngle >= 180 && theAngle < 210){
+//        7	Run	180
+            textOfPointOfSail = 'Run';
+            imageId=7;
+        } else if (theAngle >= 150 && theAngle < 180){
+//        6	Run	150
+            textOfPointOfSail = 'Run';
+            imageId=6;
+        } else if (theAngle >= 120 && theAngle < 150){
+//        5	Broad Reach	120
+            textOfPointOfSail = 'Broad Reach';
+            imageId=5;
+        } else if (theAngle >= 80 && theAngle < 120){
+//        4	Beam Reach	80
+            textOfPointOfSail = 'Beam Reach';
+            imageId=4;
+        } else if (theAngle >= 60 && theAngle < 80){
+//        3	Close Reach	60
+            textOfPointOfSail = 'Close Reach';
+            imageId=3;
+        } else if (theAngle >= 45 && theAngle < 60){
+//            2	Close Hauled	45
+            textOfPointOfSail = 'Close Hauled';
+            imageId=2;
+        }else{
+//            if (theAngle >= 315 || theAngle <= 45){
+//        1     In Irons	    315
+            textOfPointOfSail = 'In Irons';
+            imageId=1;
+        }
+
+        pointOfSailText.html(textOfPointOfSail);
+        pointOfSailImage.attr('src',"images/point-of-sail-"+imageId+".png");
+        windDirection.css('transform','rotate('+theAngle+'deg)');
+    }
 
   var gaugePrimus = Primus.connect("http://" + window.location.host + "/?gaugedata=true",
       {reconnect: {
         maxDelay: 15000,
-        minDelay: 500,
+        minDelay: 5000,
         retries: Infinity
       }});
 
   var gaugeData = new Bacon.Bus();
   gaugePrimus.on('data', function (msg) {
        switch (msg.type) {
-      case 'depth':
-      depth.setValueAnimated(msg.depth);
-        break;
-      case 'course':
-      compass.setValueAnimated(msg.heading);
-      console.log(msg);
-        break;
-      case 'speed':
-        speed.setValueAnimated(msg.knots);
-        break;
+          case 'depth':
+             depthValue.html(msg.depth);
+//            console.log('depth:'+msg.depth);
+             break;
+          case 'temperature':
+             var celcius = msg.temperature;
+             var fahrenhieght = ((celcius * 9/5)+32).toFixed(1);
+             console.log('temperature:'+msg.temperature);
+             temperatureValue.html(fahrenhieght);
+             break;
+           case 'course':
+             var deg = msg.heading;
+             changePointOfSail(deg);
+             console.log('heading:'+deg);
+             break;
+          case 'speed':
+             speedValue.html(msg.knots);
+//            console.log('knots:'+msg.knots);
+             break;
   }
-  gaugeData.push(msg);
+
   });
 
-gaugeData.filter(function(msg){msg.type === 'speed'}).scan(0, function(old, incoming) {incoming .knots> old ? incoming.knots : old}).changes().onValue(
-    function(value) {
-speed.setMaxMeasuredValue(value);        
-    });
-gaugeData.filter(function(msg){msg.type === 'depth'}).scan(0, function(old, incoming) {incoming .knots> old ? incoming.knots : old}).changes().onValue(
-    function(value) {
-depth.setMaxMeasuredValue(value);        
-    });
 </script>
 </body>
 </html>
